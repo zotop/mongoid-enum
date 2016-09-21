@@ -5,8 +5,9 @@ class User
   include Mongoid::Document
   include Mongoid::Enum
 
-  enum :status, [:awaiting_approval, :approved, :banned], :scope => true
-  enum :roles, [:author, :editor, :admin], :multiple => true, :default => [], :required => false, :scope => true
+  enum :status, [:awaiting_approval, :approved, :banned]
+  enum :roles, [:author, :editor, :admin], :multiple => true, :default => [], :required => false
+  enum :scopeless, [:missing], scope: false
 end
 
 describe Mongoid::Enum do
@@ -227,6 +228,13 @@ describe Mongoid::Enum do
           instance2.author!
           expect(User.author.to_a).to eq [instance, instance2]
           expect(User.editor.to_a).to eq [instance]
+        end
+      end
+
+      context "without scopes" do
+        it "should raise NoMethodError when accessing non-existing scope" do
+          instance.save
+          expect{User.missing}.to raise_error(NoMethodError)
         end
       end
     end

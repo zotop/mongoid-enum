@@ -26,7 +26,8 @@ module Mongoid
           :multiple => false,
           :default  => values.first,
           :required => true,
-          :validate => true
+          :validate => true,
+          :scope => true
         }
       end
 
