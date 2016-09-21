@@ -5,8 +5,8 @@ class User
   include Mongoid::Document
   include Mongoid::Enum
 
-  enum :status, [:awaiting_approval, :approved, :banned]
-  enum :roles, [:author, :editor, :admin], :multiple => true, :default => [], :required => false
+  enum :status, [:awaiting_approval, :approved, :banned], :scope => true
+  enum :roles, [:author, :editor, :admin], :multiple => true, :default => [], :required => false, :scope => true
 end
 
 describe Mongoid::Enum do
